@@ -1,1 +1,4 @@
-
+body {
+  /*@apply bg-zinc-200;*/
+  background: #e2e8f0;
+}
