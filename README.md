@@ -27,6 +27,9 @@ A simple but beautiful todos app using Meteor, Svelte and Tailwind CSS.
 - [ ] Add user authentication using Meteor
 - [ ] When added, todos are attached to a user id
 - [ ] Only allow users to view their own todos
+- [ ] Move completed todos to the bottom of the TodosList, move them back if the user marks it back to incomplete
+- [ ] Add completed date when todo is marked complete, remove the completed date if the user marks it back to incomplete
+- [ ] Show the completed date somehow
 - [ ] Ability to add description to a todo
 - [ ] Ability to add tags to a todo
 
