@@ -95,17 +95,19 @@
   }
 </script>
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 relative">
+  {#if user}
+    <div
+      class="absolute top-2 md:top-4 right-4 pointer-events-auto cursor-pointer text-right text-zinc-400 hover:text-zinc-900 transition"
+      on:click={logout}
+    >
+      {user.username} <span class="underline">Sign out</span>
+    </div>
+  {/if}
   <div class="max-w-3xl mx-auto">
     <h1 class="text-4xl font-extrabold text-center">Meteor & Svelte Todos</h1>
   </div>
   {#if user}
-    <div
-      class="pointer-events-auto cursor-pointer transition"
-      on:click={logout}
-    >
-      {user.username} logout
-    </div>
     <div class="max-w-2xl mx-auto mt-20">
       <label for="todo-text" class="block text-sm font-medium text-gray-700"
         >Add todo</label
