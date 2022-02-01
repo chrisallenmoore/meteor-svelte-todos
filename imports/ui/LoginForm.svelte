@@ -32,8 +32,10 @@
     };
 </script>
 
-<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+<section
+    class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8 login-form"
+>
+    <div class="sm:mx-auto sm:w-full sm:max-w-md grow">
         {#if signinSignup === "signin"}
             <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
                 Sign in to your account
@@ -53,7 +55,7 @@
         -->
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md grow">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form class="space-y-6" on:submit|preventDefault={handleSubmit}>
                 <div>
@@ -230,28 +232,35 @@
                 </div>
             </div>-->
         </div>
-        <div class="flex items-center mt-8">
-            <a
-                class="mx-auto w-auto -mt-3 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition"
-                target="_blank"
-                href="https://meteor.com"
-                ><img
-                    src="/images/meteor-logo.svg"
-                    alt="Workflow"
-                    class="h-8"
-                /></a
-            >
-            <a
-                class="mx-auto w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition"
-                target="_blank"
-                href="https://svelte.dev"
-            >
-                <img
-                    class="h-10"
-                    src="/images/svelte-logo-horizontal.svg"
-                    alt="Workflow"
-                />
-            </a>
+
+        <div class="max-w-sm mx-auto">
+            <div class="text-center text-slate-400 mt-5">Powered by</div>
+            <div class="flex items-center mt-3">
+                <a
+                    class="mx-auto w-auto -mt-2.5 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition"
+                    target="_blank"
+                    href="https://meteor.com"
+                    ><img
+                        src="/images/meteor-logo.svg"
+                        alt="Workflow"
+                        class="h-8"
+                    /></a
+                >
+                <a
+                    class="mx-auto w-auto grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition"
+                    target="_blank"
+                    href="https://svelte.dev"
+                >
+                    <img
+                        class="h-10"
+                        src="/images/svelte-logo-horizontal.svg"
+                        alt="Workflow"
+                    />
+                </a>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
+<style>
+</style>
