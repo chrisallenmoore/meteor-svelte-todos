@@ -1,6 +1,7 @@
 <script>
   import { Meteor } from "meteor/meteor";
   import LoginForm from "./LoginForm.svelte";
+  import Loading from "./Loading.svelte";
   /**
    * Import setContext to use context that was setup by the parent
    */
@@ -164,8 +165,10 @@
         <EmptyTodosList />
       {/if}
     </div>
-  {:else}
+  {:else if user === null}
     <LoginForm />
+  {:else}
+    <Loading />
   {/if}
 </div>
 
