@@ -22,12 +22,13 @@ A simple but beautiful todos app using Meteor, Svelte and Tailwind CSS.
 - Beautiful UI
 
 ## TODO
-- [X] Add user authentication using Meteor
-- [X] Create default user
-- [X] When added, todos are attached to a user id
-- [X] Only allow users to create, read, update, and delete their own todos
-- [X] Add ability to sign in (login form)
-- [ ] Add ability to sign up (sign up form)
+- [X] Add user authentication using Meteor (added 2 Feb 2022)
+- [X] Create default user (added 2 Feb 2022)
+- [X] When added, todos are attached to a user id (added 2 Feb 2022)
+- [X] Only allow users to create, read, update, and delete their own todos (added 2 Feb 2022)
+- [X] Add ability to sign in (login form) (added 2 Feb 2022)
+- [X] Add ability to sign up (sign up form) (added 2 Feb 2022)
+- [ ] Add email account for user account
 - [ ] Remove the Meteor insecure package and define methods
 - [ ] Remove the Meteor autopublish package and define publications
 - [ ] Move completed todos to the bottom of the TodosList, move them back if the user marks it back to incomplete

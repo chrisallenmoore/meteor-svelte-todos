@@ -1,33 +1,48 @@
 <script>
     import { Meteor } from "meteor/meteor";
 
+    /**
+     * User variables
+     */
     let username = "";
     let password = "";
 
+    /**
+     * Sign up/Sign in variables
+     */
+    let signinSignup = "signin";
+
+    function toggleSigninSignup() {
+        if (signinSignup === "signup") {
+            signinSignup = "signin";
+        } else {
+            signinSignup = "signup";
+        }
+    }
+
     const handleSubmit = () => {
-        Meteor.loginWithPassword(username, password);
+        if (signinSignup === "signin") {
+            Meteor.loginWithPassword(username, password);
+        } else {
+            Accounts.createUser({
+                username: username,
+                password: password,
+            });
+        }
     };
 </script>
 
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <!--
-        <div class="flex items-center">
-            <img
-                class="mx-auto h-8 w-auto -mt-3"
-                src="/images/meteor-logo.svg"
-                alt="Workflow"
-            />
-            <img
-                class="mx-auto h-10 w-auto"
-                src="/images/svelte-logo-horizontal.svg"
-                alt="Workflow"
-            />
-        </div>
-        -->
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
-            Sign in to your account
-        </h2>
+        {#if signinSignup === "signin"}
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
+                Sign in to your account
+            </h2>
+        {:else}
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
+                Sign up for an account
+            </h2>
+        {/if}
         <!--
         <p class="mt-2 text-center text-sm text-slate-600">
             Or
@@ -111,8 +126,31 @@
                         type="submit"
                         class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition"
                     >
-                        Sign in
+                        {#if signinSignup === "signin"}
+                            Sign in
+                        {:else}
+                            Sign up
+                        {/if}
                     </button>
+                    {#if signinSignup === "signin"}
+                        <div
+                            class="mt-2 text-zinc-400 hover:text-zinc-900 transition hover:cursor-pointer"
+                            on:click={toggleSigninSignup}
+                        >
+                            Don't have an account? <span class="underline"
+                                >Sign up</span
+                            >
+                        </div>
+                    {:else}
+                        <div
+                            class="mt-2 text-zinc-400 hover:text-zinc-900 transition hover:cursor-pointer"
+                            on:click={toggleSigninSignup}
+                        >
+                            Already have an account? <span class="underline"
+                                >Sign in</span
+                            >
+                        </div>
+                    {/if}
                 </div>
             </form>
             <!--
