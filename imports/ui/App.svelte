@@ -36,7 +36,7 @@
       : [];
 
     incompleteCount = user
-      ? TodosCollection.find(hideCompletedFilter).count()
+      ? TodosCollection.find(pendingOnlyFilter).count()
       : 0;
 
     pendingTodos = `${incompleteCount ? ` (${incompleteCount})` : ""}`;
