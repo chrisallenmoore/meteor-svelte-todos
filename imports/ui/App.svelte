@@ -1,4 +1,6 @@
 <script>
+  import { Meteor } from "meteor/meteor";
+  import LoginForm from "./LoginForm.svelte";
   /**
    * Import setContext to use context that was setup by the parent
    */
@@ -10,6 +12,8 @@
   /**
    * Define stuff for todos
    */
+  let user = null;
+  const logout = () => Meteor.logout();
   let todos = [];
   let todoItem = "";
   let completed = false;
@@ -19,11 +23,20 @@
   const hideCompletedFilter = { completed: { $ne: true } };
 
   $m: {
-    todos = TodosCollection.find(hideCompleted ? hideCompletedFilter : {}, {
-      sort: { createdAt: -1 },
-    }).fetch();
+    user = Meteor.user();
 
-    incompleteCount = TodosCollection.find(hideCompletedFilter).count();
+    const userFilter = user ? { userId: user._id } : {};
+    const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
+
+    todos = user
+      ? TodosCollection.find(hideCompleted ? pendingOnlyFilter : userFilter, {
+          sort: { createdAt: -1 },
+        }).fetch()
+      : [];
+
+    incompleteCount = user
+      ? TodosCollection.find(hideCompletedFilter).count()
+      : 0;
 
     pendingTodos = `${incompleteCount ? ` (${incompleteCount})` : ""}`;
   }
@@ -63,6 +76,7 @@
       item: todoItem,
       completed: completed,
       createdAt: new Date(), // current time
+      userId: user._id,
     });
     clearFocusTodoItem();
   };
@@ -85,62 +99,72 @@
   <div class="max-w-3xl mx-auto">
     <h1 class="text-4xl font-extrabold text-center">Meteor & Svelte Todos</h1>
   </div>
-  <div class="max-w-2xl mx-auto mt-20">
-    <label for="todo-text" class="block text-sm font-medium text-gray-700"
-      >Add todo</label
+  {#if user}
+    <div
+      class="pointer-events-auto cursor-pointer transition"
+      on:click={logout}
     >
-    <section class="mt-1 flex rounded-md shadow-sm">
-      <div class="relative flex items-stretch flex-grow focus-within:z-10">
-        <div
-          class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-        >
-          <!-- https://icons.getbootstrap.com/icons/box-arrow-in-right/ -->
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-box-arrow-in-right"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
-            />
-            <path
-              fill-rule="evenodd"
-              d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
-            />
-          </svg>
-        </div>
-        <input
-          type="text"
-          name="todo-item"
-          id="todo-item"
-          class="focus:ring-0 focus:border-slate-500 block w-full rounded-none rounded-l-md pl-10 text-lg border-gray-300 transition placeholder:text-slate-400"
-          placeholder="What needs to be done?"
-          bind:value={todoItem}
-          on:keypress|self={addTodoKeyEnter(todoItem)}
-        />
-      </div>
-      <button
-        type="button"
-        class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-slate-500 text-sm font-medium rounded-r-md text-white bg-slate-500 hover:bg-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition"
-        on:click={addTodo(todoItem)}
+      {user.username} logout
+    </div>
+    <div class="max-w-2xl mx-auto mt-20">
+      <label for="todo-text" class="block text-sm font-medium text-gray-700"
+        >Add todo</label
       >
-        <span>Add</span>
-      </button>
-    </section>
-    {#if todos.length > 0}
-      <TodosList
-        todos={todos}
-        pendingTodos={pendingTodos}
-        hideCompleted={hideCompleted}
-      />
-    {:else}
-      <EmptyTodosList />
-    {/if}
-  </div>
+      <section class="mt-1 flex rounded-md shadow-sm">
+        <div class="relative flex items-stretch flex-grow focus-within:z-10">
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <!-- https://icons.getbootstrap.com/icons/box-arrow-in-right/ -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-box-arrow-in-right"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            name="todo-item"
+            id="todo-item"
+            class="focus:ring-0 focus:border-slate-500 block w-full rounded-none rounded-l-md pl-10 text-lg border-gray-300 transition placeholder:text-slate-400"
+            placeholder="What needs to be done?"
+            bind:value={todoItem}
+            on:keypress|self={addTodoKeyEnter(todoItem)}
+          />
+        </div>
+        <button
+          type="button"
+          class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-slate-500 text-sm font-medium rounded-r-md text-white bg-slate-500 hover:bg-slate-600 focus:outline-none focus:ring-1 focus:ring-slate-500 focus:border-slate-500 transition"
+          on:click={addTodo(todoItem)}
+        >
+          <span>Add</span>
+        </button>
+      </section>
+      {#if todos.length > 0}
+        <TodosList
+          todos={todos}
+          pendingTodos={pendingTodos}
+          hideCompleted={hideCompleted}
+        />
+      {:else}
+        <EmptyTodosList />
+      {/if}
+    </div>
+  {:else}
+    <LoginForm />
+  {/if}
 </div>
 
 <style>
