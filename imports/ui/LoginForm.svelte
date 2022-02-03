@@ -242,7 +242,7 @@
                     href="https://meteor.com"
                     ><img
                         src="/images/meteor-logo.svg"
-                        alt="Workflow"
+                        alt="Meteor.js"
                         class="h-8"
                     /></a
                 >
@@ -254,7 +254,7 @@
                     <img
                         class="h-10"
                         src="/images/svelte-logo-horizontal.svg"
-                        alt="Workflow"
+                        alt="Svelte"
                     />
                 </a>
             </div>
