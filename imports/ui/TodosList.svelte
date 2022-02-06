@@ -1,5 +1,5 @@
 <script>
-    import { TodosCollection } from "../api/TodosCollection.js";
+    import { TodosCollection } from "../db/TodosCollection.js";
     /**
      * Import getContext to use context that was setup by the parent
      */
@@ -22,16 +22,18 @@
      * Toggle todo completed status
      */
     const toggleCompleted = (todo) => {
-        TodosCollection.update(todo._id, {
+        /*TodosCollection.update(todo._id, {
             $set: { completed: !todo.completed },
-        });
+        });*/
+        Meteor.call("todos.setCompleted", todo._id, !todo.completed);
     };
 
     /**
      * Delete a todo
      */
     const deleteTodo = (todo) => {
-        TodosCollection.remove(todo._id);
+        /*TodosCollection.remove(todo._id);*/
+        Meteor.call("todos.remove", todo._id);
     };
 
     /**

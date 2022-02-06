@@ -8,7 +8,7 @@
   import { setContext } from "svelte";
   import EmptyTodosList from "./EmptyTodosList.svelte";
   import TodosList from "./TodosList.svelte";
-  import { TodosCollection } from "../api/TodosCollection.js";
+  import { TodosCollection } from "../db/TodosCollection.js";
 
   /**
    * Define stuff for todos
@@ -73,12 +73,14 @@
       completed: completed,
       createdAt: new Date(),
     };*/
-    TodosCollection.insert({
+    /*TodosCollection.insert({
       item: todoItem,
       completed: completed,
       createdAt: new Date(), // current time
       userId: user._id,
-    });
+    });*/
+    Meteor.call("todos.insert", todoItem);
+
     clearFocusTodoItem();
   };
 

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { TodosCollection } from '../imports/api/TodosCollection.js';
+import { TodosCollection } from '../imports/db/TodosCollection.js';
+import '../imports/api/TodosMethods.js';
 
 /**
  * Seed default user account
