@@ -22,24 +22,30 @@
   let incompleteCount;
   let pendingTodos = "";
   const hideCompletedFilter = { completed: { $ne: true } };
+  let isLoading = true;
+  const handler = Meteor.subscribe("todos");
 
   $m: {
     user = Meteor.user();
 
-    const userFilter = user ? { userId: user._id } : {};
-    const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
+    if (user) {
+      isLoading = !handler.ready();
 
-    todos = user
-      ? TodosCollection.find(hideCompleted ? pendingOnlyFilter : userFilter, {
-          sort: { createdAt: -1 },
-        }).fetch()
-      : [];
+      const userFilter = user ? { userId: user._id } : {};
+      const pendingOnlyFilter = { ...hideCompletedFilter, ...userFilter };
 
-    incompleteCount = user
-      ? TodosCollection.find(pendingOnlyFilter).count()
-      : 0;
+      todos = user
+        ? TodosCollection.find(hideCompleted ? pendingOnlyFilter : userFilter, {
+            sort: { createdAt: -1 },
+          }).fetch()
+        : [];
 
-    pendingTodos = `${incompleteCount ? ` (${incompleteCount})` : ""}`;
+      incompleteCount = user
+        ? TodosCollection.find(pendingOnlyFilter).count()
+        : 0;
+
+      pendingTodos = `${incompleteCount ? ` (${incompleteCount})` : ""}`;
+    }
   }
 
   /**
@@ -163,6 +169,9 @@
           pendingTodos={pendingTodos}
           hideCompleted={hideCompleted}
         />
+        {#if isLoading}
+          <Loading />
+        {/if}
       {:else}
         <EmptyTodosList />
       {/if}

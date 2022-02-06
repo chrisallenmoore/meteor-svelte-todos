@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { TodosCollection } from '../imports/db/TodosCollection.js';
 import '../imports/api/TodosMethods.js';
-
+import '/imports/api/TodosPublications';
 /**
  * Seed default user account
  */
